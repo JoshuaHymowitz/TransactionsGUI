@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
@@ -33,12 +34,14 @@
                               <RadioButton mnemonicParsing="false" text="Money Market" />
                            </children>
                         </HBox>
-                        <Label layoutX="28.0" layoutY="45.0" text="Name" />
+                        <Label layoutX="28.0" layoutY="45.0" text="First Name" />
                         <TextField fx:id="openingDeposit" layoutX="28.0" layoutY="62.0" />
-                        <Label layoutX="28.0" layoutY="101.0" text="Amount" />
-                        <TextField layoutX="28.0" layoutY="118.0" prefHeight="27.0" prefWidth="106.0" />
-                        <Button layoutX="31.0" layoutY="178.0" mnemonicParsing="false" text="Deposit" />
-                        <Button layoutX="26.0" layoutY="213.0" mnemonicParsing="false" text="Withdraw" />
+                        <Label layoutX="28.0" layoutY="156.0" text="Amount" />
+                        <TextField layoutX="28.0" layoutY="173.0" prefHeight="27.0" prefWidth="106.0" />
+                        <Button layoutX="27.0" layoutY="213.0" mnemonicParsing="false" text="Deposit" />
+                        <Button layoutX="26.0" layoutY="252.0" mnemonicParsing="false" text="Withdraw" />
+                        <Label layoutX="28.0" layoutY="99.0" text="Last Name" />
+                        <TextField layoutX="28.0" layoutY="116.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -47,23 +50,42 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="537.0">
                      <children>
-                        <VBox layoutX="29.0" layoutY="35.0" prefHeight="200.0" prefWidth="150.0">
+                        <VBox layoutX="29.0" layoutY="35.0" prefHeight="253.0" prefWidth="150.0">
                            <children>
                               <Label text="Account Type" />
-                              <RadioButton fx:id="openChecking" mnemonicParsing="false" text="Checking" />
-                              <RadioButton fx:id="openSavings" mnemonicParsing="false" text="Savings" />
-                              <RadioButton fx:id="openMoneyMarket" mnemonicParsing="false" text="Money Market" />
+                              <RadioButton fx:id="openChecking" mnemonicParsing="false" onAction="#openCheckingButtonPress" text="Checking" />
+                              <RadioButton fx:id="openSavings" mnemonicParsing="false" onAction="#openSavingsButtonPress" text="Savings" />
+                              <RadioButton fx:id="openMoneyMarket" mnemonicParsing="false" onAction="#openMoneyMarketButtonPress" text="Money Market" />
                               <Label />
                               <Label text="Initial Deposit" />
                               <TextField fx:id="openingDeposit" prefHeight="27.0" prefWidth="90.0" />
-                              <Label />
-                              <Label text="Name" />
-                              <TextField fx:id="openingName" />
+                              <Label text="First Name" />
+                              <TextField fx:id="openingFirstName" />
+                              <Label text="Last Name" />
+                              <TextField fx:id="openingLastName" />
                            </children>
                         </VBox>
-                        <CheckBox fx:id="openDirectDeposit" layoutX="311.0" layoutY="52.0" mnemonicParsing="false" text="Direct Deposit" />
-                        <CheckBox fx:id="openLoyal" layoutX="311.0" layoutY="70.0" mnemonicParsing="false" text="Loyal Customer" />
+                        <CheckBox fx:id="openDirectDeposit" layoutX="311.0" layoutY="126.0" mnemonicParsing="false" text="Direct Deposit" />
+                        <CheckBox fx:id="openLoyal" layoutX="311.0" layoutY="144.0" mnemonicParsing="false" text="Loyal Customer" />
                         <Button fx:id="openAccount" layoutX="204.0" layoutY="258.0" mnemonicParsing="false" onAction="#openAccount" text="Open Account" />
+                        <Label layoutX="311.0" layoutY="35.0" text="Date" />
+                        <HBox layoutX="311.0" layoutY="52.0" prefHeight="30.0" prefWidth="176.0">
+                           <children>
+                              <TextField fx:id="openDay" prefHeight="27.0" prefWidth="35.0" promptText="dd" />
+                              <Label text=" / ">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="openMonth" prefHeight="27.0" prefWidth="36.0" promptText="mm" />
+                              <Label text=" / ">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="openYear" prefHeight="27.0" prefWidth="54.0" promptText="yyyy" />
+                           </children>
+                        </HBox>
                      </children>
                   </AnchorPane>
             </content>
@@ -79,7 +101,9 @@
                               <RadioButton mnemonicParsing="false" text="Savings" />
                               <RadioButton mnemonicParsing="false" text="Money Market" />
                               <Label />
-                              <Label text="Name" />
+                              <Label text="First Name" />
+                              <TextField />
+                              <Label text="Last Name" />
                               <TextField />
                            </children>
                         </VBox>
@@ -115,6 +139,6 @@
             </Tab>
         </tabs>
       </TabPane>
-      <TextArea id="messageArea" layoutX="27.0" layoutY="333.0" prefHeight="163.0" prefWidth="456.0" />
+      <TextArea fx:id="messageArea" layoutX="27.0" layoutY="333.0" prefHeight="163.0" prefWidth="456.0" />
    </children>
 </AnchorPane>
