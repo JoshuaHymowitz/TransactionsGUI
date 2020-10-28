@@ -18,7 +18,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
-      <TabPane prefHeight="362.0" prefWidth="505.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="490.0" prefWidth="505.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Deposit/Withdraw">
             <content>
@@ -97,17 +97,17 @@
                         <VBox layoutX="42.0" layoutY="37.0" prefHeight="200.0" prefWidth="116.0">
                            <children>
                               <Label text="Account Type" />
-                              <RadioButton mnemonicParsing="false" text="Checking" />
-                              <RadioButton mnemonicParsing="false" text="Savings" />
-                              <RadioButton mnemonicParsing="false" text="Money Market" />
+                              <RadioButton fx:id="closeChecking" mnemonicParsing="false" onAction="#closeCheckingButtonPress" text="Checking" />
+                              <RadioButton fx:id="closeSavings" mnemonicParsing="false" onAction="#closeSavingsButtonPress" text="Savings" />
+                              <RadioButton fx:id="closeMoneyMarket" mnemonicParsing="false" onAction="#closeMoneyMarketButtonPress" text="Money Market" />
                               <Label />
                               <Label text="First Name" />
-                              <TextField />
+                              <TextField fx:id="closingFirstName" />
                               <Label text="Last Name" />
-                              <TextField />
+                              <TextField fx:id="closingLastName" />
                            </children>
                         </VBox>
-                        <Button layoutX="42.0" layoutY="248.0" mnemonicParsing="false" text="Close Account" />
+                        <Button fx:id="closeAccount" layoutX="42.0" layoutY="248.0" mnemonicParsing="false" onAction="#closeAccount" text="Close Account" />
                      </children>
                   </AnchorPane>
               </content>
