@@ -9,9 +9,11 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
 import javafx.scene.control.Alert.AlertType;
 
 public class Controller {
@@ -61,6 +63,8 @@ public class Controller {
 	@FXML
 	private TextField firstName, lastName, amount;
 	
+	@FXML
+	private AnchorPane importExportPane;
 	
 	
 	@FXML
@@ -467,6 +471,24 @@ public class Controller {
 	void closeMoneyMarketButtonPress(ActionEvent event) {
 		closeChecking.setSelected(false);
 		closeSavings.setSelected(false);
+	}
+	
+	@FXML
+	/**
+	 * Event handler for the choose file button
+	 * @param event
+	 */
+	void chooseFile(ActionEvent event) {
+		Stage dialog = new Stage();
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		File file = fileChooser.showOpenDialog(dialog);
+		if(file != null) {
+			
+		}
+		//dialog.show();
 	}
 	
 	
