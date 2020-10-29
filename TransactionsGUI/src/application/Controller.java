@@ -47,6 +47,182 @@ public class Controller {
 	private Button closeAccount;
 	
 	@FXML
+	private Button chooseFileButton;
+	
+	@FXML
+	private Button choosePathButton;
+	
+	@FXML
+	private RadioButton checkingAccount, savingsAccount, moneyMarket;
+	
+	@FXML
+	private Button depositButton, withdrawButton;
+	
+	@FXML
+	private TextField firstName, lastName, amount;
+	
+	
+	
+	@FXML
+	/**
+	 * Event handler for the Deposit/Withdraw checking radio button
+	 * @param event
+	 */
+	void depositOrWithdrawCheckingPress(ActionEvent event) {
+		checkingAccount.setSelected(true);
+		savingsAccount.setSelected(false);
+		moneyMarket.setSelected(false);
+	}
+	
+	@FXML
+	/**
+	 * Event handler for the Deposit/Withdraw savings radio button
+	 * @param event
+	 */
+	void depositOrWithdrawSavingsPress(ActionEvent event) {
+		checkingAccount.setSelected(false);
+		savingsAccount.setSelected(true);
+		moneyMarket.setSelected(false);
+	}
+	
+	@FXML
+	/**
+	 * Event handler for the Deposit/Withdraw money market radio button
+	 * @param event
+	 */
+	void depositOrWithdrawMoneyMarketPress(ActionEvent event) {
+		checkingAccount.setSelected(false);
+		savingsAccount.setSelected(false);
+		moneyMarket.setSelected(true);
+	}
+	
+	@FXML
+	/**
+	 * Event handler for the deposit button
+	 * @param event
+	 */
+	void deposit(ActionEvent event) {
+		String firstName;
+		String lastName;
+		try {
+			firstName = this.firstName.getText();
+			lastName = this.lastName.getText();
+		}catch(Exception e) {
+			messageArea.appendText("Make sure you enter a first name and a last name\n");
+			return;
+		}
+		double amount;
+		try {
+			amount = Double.parseDouble(this.amount.getCharacters().toString());
+		}catch(Exception e) {
+			messageArea.appendText("Make sure to enter a number value to be deposited\n");
+			return;
+		}
+		
+		if(checkingAccount.isSelected()) {
+			Profile newProfile = new Profile(firstName, lastName);
+			Checking tempChecking = new Checking(newProfile, 1, tempDate,false); //only the profile is compared to check for equality of accounts, so other values are temporaries
+			
+			boolean depositability = accountDatabase.deposit(tempChecking, amount);
+			if(depositability) {
+				messageArea.appendText("Deposit Successful\n");
+			}else {
+				messageArea.appendText("Unable to Deposit, account not found in that name\n");
+			}
+		}else if(savingsAccount.isSelected()) {
+			Profile newProfile = new Profile(firstName, lastName);
+			Savings tempSavings = new Savings(newProfile, 1, tempDate,false); //only the profile is compared to check for equality of accounts, so other values are temporaries
+			
+			boolean depositability = accountDatabase.deposit(tempSavings, amount);
+			if(depositability) {
+				messageArea.appendText("Deposit Successful\n");
+			}else {
+				messageArea.appendText("Unable to Deposit, account not found in that name\n");
+			}
+		}else if(moneyMarket.isSelected()) {
+			Profile newProfile = new Profile(firstName, lastName);
+			MoneyMarket tempMoneyMarket = new MoneyMarket(newProfile, 1, tempDate,1); //only the profile is compared to check for equality of accounts, so other values are temporaries
+			
+			boolean depositability = accountDatabase.deposit(tempMoneyMarket, amount);
+			if(depositability) {
+				messageArea.appendText("Deposit Successful\n");
+			}else {
+				messageArea.appendText("Unable to Deposit, account not found in that name\n");
+			}
+		}else {
+			messageArea.appendText("Select an account type\n");
+			return;
+		}
+	}
+	
+	
+	@FXML
+	/**
+	 * event handler for the withdraw button
+	 * @param event
+	 */
+	void withdraw(ActionEvent event) {
+		String firstName;
+		String lastName;
+		try {
+			firstName = this.firstName.getText();
+			lastName = this.lastName.getText();
+		}catch(Exception e) {
+			messageArea.appendText("Make sure you enter a first name and a last name\n");
+			return;
+		}
+		double amount;
+		try {
+			amount = Double.parseDouble(this.amount.getCharacters().toString());
+		}catch(Exception e) {
+			messageArea.appendText("Make sure to enter a number value to be deposited\n");
+			return;
+		}
+		
+		if(checkingAccount.isSelected()) {
+			Profile newProfile = new Profile(firstName, lastName);
+			Checking tempChecking = new Checking(newProfile, 1, tempDate,false); //only the profile is compared to check for equality of accounts, so other values are temporaries
+			
+			int couldWithdraw = accountDatabase.withdrawal(tempChecking, amount);
+			if(couldWithdraw == 0) {
+				messageArea.appendText("Withdrawal Successful\n");
+			}else if(couldWithdraw == 1){
+				messageArea.appendText("Unable to withdraw, insufficient funds\n");
+			}else {
+				messageArea.appendText("Unable to withdraw, account not found in that name\n");
+			}
+		}else if(savingsAccount.isSelected()) {
+			Profile newProfile = new Profile(firstName, lastName);
+			Savings tempSavings = new Savings(newProfile, 1, tempDate,false); //only the profile is compared to check for equality of accounts, so other values are temporaries
+			
+			int couldWithdraw = accountDatabase.withdrawal(tempSavings, amount);
+			if(couldWithdraw == 0) {
+				messageArea.appendText("Withdrawal Successful\n");
+			}else if(couldWithdraw == 1){
+				messageArea.appendText("Unable to withdraw, insufficient funds\n");
+			}else {
+				messageArea.appendText("Unable to withdraw, account not found in that name\n");
+			}
+		}else if(moneyMarket.isSelected()) {
+			Profile newProfile = new Profile(firstName, lastName);
+			MoneyMarket tempMoneyMarket = new MoneyMarket(newProfile, 1, tempDate,1); //only the profile is compared to check for equality of accounts, so other values are temporaries
+			
+			int couldWithdraw = accountDatabase.withdrawal(tempMoneyMarket, amount);
+			if(couldWithdraw == 0) {
+				messageArea.appendText("Withdrawal Successful\n");
+			}else if(couldWithdraw == 1){
+				messageArea.appendText("Unable to withdraw, insufficient funds\n");
+			}else {
+				messageArea.appendText("Unable to withdraw, account not found in that name\n");
+			}
+		}else {
+			messageArea.appendText("Select an account type\n");
+		}
+		
+	}
+	
+	
+	@FXML
 	/**
 	 * Event handler for the open account button
 	 * @param event

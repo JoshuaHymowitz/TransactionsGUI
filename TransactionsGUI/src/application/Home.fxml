@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -16,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
       <TabPane prefHeight="490.0" prefWidth="505.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -27,21 +31,19 @@
                         <HBox layoutX="28.0" layoutY="14.0" prefHeight="38.0" prefWidth="392.0">
                            <children>
                               <Label text="Account Type:     " />
-                              <RadioButton mnemonicParsing="false" text="Checking" />
-                              <Label text="     " />
-                              <RadioButton mnemonicParsing="false" text="Savings" />
-                              <Label text="     " />
-                              <RadioButton mnemonicParsing="false" text="Money Market" />
+                              <RadioButton fx:id="checkingAccount" mnemonicParsing="false" onAction="#depositOrWithdrawCheckingPress" text="Checking" />
+                              <RadioButton fx:id="savingsAccount" mnemonicParsing="false" onAction="#depositOrWithdrawSavingsPress" text="Savings" />
+                              <RadioButton fx:id="moneyMarket" mnemonicParsing="false" onAction="#depositOrWithdrawMoneyMarketPress" text="Money Market" />
                            </children>
                         </HBox>
                         <Label layoutX="28.0" layoutY="45.0" text="First Name" />
-                        <TextField fx:id="openingDeposit" layoutX="28.0" layoutY="62.0" />
+                        <TextField fx:id="firstName" layoutX="28.0" layoutY="62.0" />
                         <Label layoutX="28.0" layoutY="156.0" text="Amount" />
-                        <TextField layoutX="28.0" layoutY="173.0" prefHeight="27.0" prefWidth="106.0" />
-                        <Button layoutX="27.0" layoutY="213.0" mnemonicParsing="false" text="Deposit" />
-                        <Button layoutX="26.0" layoutY="252.0" mnemonicParsing="false" text="Withdraw" />
+                        <TextField fx:id="amount" layoutX="28.0" layoutY="173.0" prefHeight="27.0" prefWidth="106.0" />
+                        <Button layoutX="27.0" layoutY="213.0" mnemonicParsing="false" onAction="#deposit" text="Deposit" />
+                        <Button fx:id="withdrawButton" layoutX="26.0" layoutY="252.0" mnemonicParsing="false" text="Withdraw" />
                         <Label layoutX="28.0" layoutY="99.0" text="Last Name" />
-                        <TextField layoutX="28.0" layoutY="116.0" />
+                        <TextField fx:id="lastName" layoutX="28.0" layoutY="116.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -129,8 +131,8 @@
                            <children>
                               <Label text="Import" />
                               <Label text="Export" GridPane.columnIndex="1" />
-                              <Button mnemonicParsing="false" text="Choose file" GridPane.rowIndex="1" />
-                              <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="170.0" text="Choose path" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Button fx:id="chooseFileButton" mnemonicParsing="false" text="Choose file" GridPane.rowIndex="1" />
+                              <Button fx:id="choosePathButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="170.0" text="Choose path" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                      </children>
