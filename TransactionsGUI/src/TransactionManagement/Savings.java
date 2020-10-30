@@ -66,7 +66,7 @@ public class Savings extends Account {
 	 */
 	public String toString() {
 		String str1 = super.toString();
-		String str2 = "*Savings*";
+		String str2 = "*Savings* ";
 		String output = str2 + str1;
 		if(isLoyal) {
 			output += "*special savings account";

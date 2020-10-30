@@ -1,6 +1,13 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.text.NumberFormat;
+import java.util.Scanner;
+
 import TransactionManagement.*;
 
 import javafx.event.ActionEvent;
@@ -63,8 +70,6 @@ public class Controller {
 	@FXML
 	private TextField firstName, lastName, amount;
 	
-	@FXML
-	private AnchorPane importExportPane;
 	
 	
 	@FXML
@@ -486,12 +491,171 @@ public class Controller {
 		fileChooser.setTitle("Open Resource File");
 		File file = fileChooser.showOpenDialog(dialog);
 		if(file != null) {
-			
+			processFileInput(file);
 		}
 		//dialog.show();
 	}
 	
 	
+	/**
+	 * Add all the accounts outlined in the file to the database (helper method for the file button handler)
+	 * @param file
+	 */
+	void processFileInput(File file) {
+		Scanner sc;
+		try {
+			sc = new Scanner(file);
+		}catch(Exception e) {
+			messageArea.appendText("Import a valid file");
+			return;
+		}
+		
+		while(sc.hasNextLine()) {
+			String line = sc.nextLine();
+			//messageArea.appendText(line);
+			char accountType = line.charAt(0);//first char of any line should be S, C, or M for savings, checking or MoneyMarket
+			String[] fields = new String[5];
+			
+			int pointer = 2;
+			int pointer2 = 2;//pointers used to tokenize the line by commas
+			for(int i = 0; i < 5; i++) {
+				while(pointer2 < line.length() && line.charAt(pointer2) != ',' && line.charAt(pointer2) != '\n') {
+					pointer2++;
+				}
+				fields[i] = line.substring(pointer,pointer2);//pointer should be the index of the first letter of the token, pointer2 should be the comma or newline separting the tokens
+				pointer2++;
+				pointer = pointer2;
+				pointer2++;
+			}
+			
+			
+			//at the end of the for loop, accountType char should be S, C or M for the type, and the the fields array should be populated by the first name, last name, balance, date, and either a boolean or an int
+			Profile tempProfile = new Profile(fields[0], fields[1]);
+			Date tempDate = new Date(fields[3]);
+			switch (accountType) {
+				case 'S':
+					
+					Savings tempSavings = new Savings(tempProfile, Double.parseDouble(fields[2]), tempDate, Boolean.parseBoolean(fields[4]));
+					accountDatabase.add(tempSavings);
+					break;
+				case 'C':
+					
+					Checking tempChecking = new Checking(tempProfile, Double.parseDouble(fields[2]), tempDate, Boolean.parseBoolean(fields[4]));
+					accountDatabase.add(tempChecking);
+					break;
+					
+				case 'M':
+					MoneyMarket tempMoneyMarket = new MoneyMarket(tempProfile, Double.parseDouble(fields[2]), tempDate, Integer.parseInt(fields[4]));
+					accountDatabase.add(tempMoneyMarket);
+					break;
+					
+				default: 
+			}
+			
+		}
+		
+		accountDatabase.printAccounts();
+	}
+	
+	
+	@FXML
+	/**
+	 * event handler for export button
+	 * @param event
+	 */
+	void exportFile(ActionEvent event) {
+		String[] tokens = new String[accountDatabase.getSize()];
+		tokens = accountDatabase.printAccounts();
+		
+		Stage dialog = new Stage();
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save Export File");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+		File file = fileChooser.showSaveDialog(dialog);
+		if(file != null) {
+			BufferedWriter br;
+			try {
+				br = new BufferedWriter(new FileWriter(file));
+				
+				for(String line : tokens) {
+					System.out.println("this line: " + line);
+					char accType = line.charAt(1); //S, C or M to determine type
+					int pointer = 1;
+					while(line.charAt(pointer) != ' ') {//increment the pointer until we find the first space, indicating  that the next char is the first letter of the first name
+						pointer++;
+					}
+					pointer++;
+					int pointer2 = pointer;
+					while(line.charAt(pointer2) != ' ') {
+						pointer2++;
+					}
+					String firstName = line.substring(pointer, pointer2); //pointer is the index of the first letter of the first name, pointer2 should be the index of the space between the first and last name
+					pointer2++;
+					pointer = pointer2;
+					while(line.charAt(pointer2) != '*') {
+						pointer2++;
+					}
+					
+					String lastName = line.substring(pointer,pointer2);//pointer is the index of the first letter of the last name. pointer2 the index of the asterisk signifying the end of the name
+					pointer2++;
+					pointer2++;
+					pointer2++;//before these increments, pointer2 is the index of the asterisk, after the first increment it is the space, after the second, it is the dollar sign, after the third, it is the first digit of the balance
+					pointer = pointer2;
+					while(line.charAt(pointer2) != '*') {
+						pointer2++;
+						
+					}
+					
+					
+					String balance = line.substring(pointer, pointer2);
+					balance = balance.replace(",", "");
+					//String balance = NumberFormat.getCurrencyInstance().format(line.substring(pointer,pointer2)).toString();
+					pointer2++;
+					pointer2++;
+					pointer = pointer2;
+					
+					while(pointer2 < line.length() && (line.charAt(pointer2) != '*')) {
+						System.out.println("pointer 2 is: " + line.charAt(pointer2) + " at this time");
+						pointer2++;
+					}
+					String date = line.substring(pointer,pointer2);
+					
+					//at this point processing the string into the database.txt format gets more complicated because 1) the last field is different depending on the type of account and 2) the argument may or may not be there
+					String lastArg;
+					if(accType == 'S' || accType == 'C') {
+						//if pointer2 has reached the end of the string, it did not find an asterisk, and thus the last field was missing, and thus this field is false
+						if(pointer2 >= line.length()) {
+							lastArg = "false";
+						}else {
+							//System.out.println("pointer 2 is: " + line.charAt(pointer2) + " at this time");
+							lastArg = "true";
+						}
+					}else {//if it wasnt S or C, it must be M
+						pointer2++;
+						pointer = pointer2;//integer can be any number of digits, so need to parse to next space
+						while(line.charAt(pointer2) != ' ') {
+							pointer2++;
+						}
+						lastArg = line.substring(pointer, pointer2);
+					}
+					
+					String finalOutput = accType + "," + firstName + "," + lastName + "," + balance + "," + date + "," + lastArg + "\n";
+					br.write(finalOutput, 0, finalOutput.length());
+					br.flush();
+					
+				}
+			}catch (Exception e) {
+				System.out.println(e.toString());
+				messageArea.appendText("Choose a valid file and location\n");
+				return;
+			}
+			
+		}
+		
+	}
 		
 
 		

@@ -66,7 +66,7 @@ public class Checking extends Account {
 	 */
 	public String toString() {
 		String str1 = super.toString();
-		String str2 = "*Checking *";
+		String str2 = "*Checking* ";
 		String output = str2 + str1;
 		if(directDeposit) {
 			output += "*direct deposit account";

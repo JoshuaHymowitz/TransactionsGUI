@@ -159,7 +159,10 @@ public class AccountDatabase {
 	 */
 	public void printByDateOpen() {
 		this.sortByDateOpen();
+		String[] tokenizedArray = new String[size];
 		for(int i = 0; i < size; i++) {
+			//tokenizedArray[i] += 
+			
 			System.out.println(this.accounts[i].toString());
 			System.out.println("-interest: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyInterest()));
 			System.out.println("-fee: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyFee()));
@@ -167,6 +170,7 @@ public class AccountDatabase {
 			this.accounts[i].debit(this.accounts[i].monthlyFee()); // debit the account the monthly fee
 			System.out.println("-new balance: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].getBalance()));
 			System.out.println("");
+			
 		}
 	}
 	
@@ -189,10 +193,13 @@ public class AccountDatabase {
 	/**
 	 * A method that prints the array in whatever order it currently is in
 	 */
-	public void printAccounts() {
+	public String[] printAccounts() {
+		String[] tokens = new String[size];
 		for(int i = 0; i < size; i++) {
+			tokens[i] = this.accounts[i].toString();
 			System.out.println(this.accounts[i].toString());
 		}
+		return tokens;
 	}
 	/**
 	 * accessor method to get the number of accounts currently in the database
