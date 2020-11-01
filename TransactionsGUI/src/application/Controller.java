@@ -194,7 +194,6 @@ public class Controller {
 			messageArea.appendText("Make sure to enter a number value to be deposited\n");
 			return;
 		}
-		
 		if(checkingAccount.isSelected()) {
 			Profile newProfile = new Profile(firstName, lastName);
 			Checking tempChecking = new Checking(newProfile, 1, tempDate,false); //only the profile is compared to check for equality of accounts, so other values are temporaries
@@ -264,6 +263,11 @@ public class Controller {
 		}
 		catch (Exception e) {
 			messageArea.appendText("Make sure to enter a first and last name\n");
+			return;
+		}
+		
+		if(firstName.length() == 0 || lastName.length() == 0) {
+			messageArea.appendText("Make sure to enter a value for the first and last name\n");
 			return;
 		}
 		
@@ -562,6 +566,7 @@ public class Controller {
 		}
 		
 		accountDatabase.printAccounts();
+		messageArea.appendText("File imported\n");
 	}
 	
 	
@@ -588,7 +593,7 @@ public class Controller {
 				br = new BufferedWriter(new FileWriter(file));
 				
 				for(String line : tokens) {
-					System.out.println("this line: " + line);
+					//System.out.println("this line: " + line);
 					char accType = line.charAt(1); //S, C or M to determine type
 					int pointer = 1;
 					while(line.charAt(pointer) != ' ') {//increment the pointer until we find the first space, indicating  that the next char is the first letter of the first name
@@ -625,10 +630,10 @@ public class Controller {
 					pointer = pointer2;
 					
 					while(pointer2 < line.length() && (line.charAt(pointer2) != '*')) {
-						System.out.println("pointer 2 is: " + line.charAt(pointer2) + " at this time");
+						//System.out.println("pointer 2 is: " + line.charAt(pointer2) + " at this time");
 						pointer2++;
 					}
-					String date = line.substring(pointer,pointer2);
+					String date = line.substring(pointer,pointer2-1);
 					
 					//at this point processing the string into the database.txt format gets more complicated because 1) the last field is different depending on the type of account and 2) the argument may or may not be there
 					String lastArg;
