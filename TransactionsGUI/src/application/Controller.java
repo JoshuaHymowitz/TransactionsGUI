@@ -1,3 +1,7 @@
+/**
+Controller class for the graphical user interface 
+@author Max Bartlik, Josh Hymowitz
+*/
 package application;
 
 import java.io.BufferedReader;

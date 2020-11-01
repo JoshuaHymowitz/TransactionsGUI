@@ -1,3 +1,7 @@
+/**
+Main class for the project, creates AnchorPane and stage, contains main method, runs Home.fxml file
+@author Max Bartlik, Josh Hymowitz
+*/
 package application;
 
 import javafx.application.Application;
