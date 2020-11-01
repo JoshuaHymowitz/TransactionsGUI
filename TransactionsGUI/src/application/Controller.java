@@ -118,6 +118,8 @@ public class Controller {
 	 * @param event
 	 */
 	void deposit(ActionEvent event) {
+		
+		// parse for name
 		String firstName;
 		String lastName;
 		try {
@@ -127,6 +129,8 @@ public class Controller {
 			messageArea.appendText("Make sure you enter a first name and a last name\n");
 			return;
 		}
+		
+		// parse for deposit amount
 		double amount;
 		try {
 			amount = Double.parseDouble(this.amount.getCharacters().toString());
@@ -135,6 +139,7 @@ public class Controller {
 			return;
 		}
 		
+		// perform checking operations
 		if(checkingAccount.isSelected()) {
 			Profile newProfile = new Profile(firstName, lastName);
 			Checking tempChecking = new Checking(newProfile, 1, tempDate,false); //only the profile is compared to check for equality of accounts, so other values are temporaries
@@ -145,7 +150,10 @@ public class Controller {
 			}else {
 				messageArea.appendText("Unable to Deposit, account not found in that name\n");
 			}
-		}else if(savingsAccount.isSelected()) {
+		}
+		
+		// perform savings operations
+		else if(savingsAccount.isSelected()) {
 			Profile newProfile = new Profile(firstName, lastName);
 			Savings tempSavings = new Savings(newProfile, 1, tempDate,false); //only the profile is compared to check for equality of accounts, so other values are temporaries
 			
@@ -155,7 +163,10 @@ public class Controller {
 			}else {
 				messageArea.appendText("Unable to Deposit, account not found in that name\n");
 			}
-		}else if(moneyMarket.isSelected()) {
+		}
+		
+		// perform money market operations
+		else if(moneyMarket.isSelected()) {
 			Profile newProfile = new Profile(firstName, lastName);
 			MoneyMarket tempMoneyMarket = new MoneyMarket(newProfile, 1, tempDate,1); //only the profile is compared to check for equality of accounts, so other values are temporaries
 			
@@ -178,6 +189,8 @@ public class Controller {
 	 * @param event
 	 */
 	void withdraw(ActionEvent event) {
+		
+		// parse for name
 		String firstName;
 		String lastName;
 		try {
@@ -187,6 +200,8 @@ public class Controller {
 			messageArea.appendText("Make sure you enter a first name and a last name\n");
 			return;
 		}
+		
+		// parse for withdrawal amount
 		double amount;
 		try {
 			amount = Double.parseDouble(this.amount.getCharacters().toString());
@@ -194,6 +209,8 @@ public class Controller {
 			messageArea.appendText("Make sure to enter a number value to be deposited\n");
 			return;
 		}
+		
+		// perform checking operations
 		if(checkingAccount.isSelected()) {
 			Profile newProfile = new Profile(firstName, lastName);
 			Checking tempChecking = new Checking(newProfile, 1, tempDate,false); //only the profile is compared to check for equality of accounts, so other values are temporaries
@@ -206,7 +223,10 @@ public class Controller {
 			}else {
 				messageArea.appendText("Unable to withdraw, account not found in that name\n");
 			}
-		}else if(savingsAccount.isSelected()) {
+		}
+		
+		// perform savings operations
+		else if(savingsAccount.isSelected()) {
 			Profile newProfile = new Profile(firstName, lastName);
 			Savings tempSavings = new Savings(newProfile, 1, tempDate,false); //only the profile is compared to check for equality of accounts, so other values are temporaries
 			
@@ -218,6 +238,8 @@ public class Controller {
 			}else {
 				messageArea.appendText("Unable to withdraw, account not found in that name\n");
 			}
+			
+		// perform money market operations
 		}else if(moneyMarket.isSelected()) {
 			Profile newProfile = new Profile(firstName, lastName);
 			MoneyMarket tempMoneyMarket = new MoneyMarket(newProfile, 1, tempDate,1); //only the profile is compared to check for equality of accounts, so other values are temporaries
@@ -230,7 +252,8 @@ public class Controller {
 			}else {
 				messageArea.appendText("Unable to withdraw, account not found in that name\n");
 			}
-		}else {
+		}
+		else {
 			messageArea.appendText("Select an account type\n");
 		}
 		
@@ -266,6 +289,7 @@ public class Controller {
 			return;
 		}
 		
+		// make sure the name fields have something in them
 		if(firstName.length() == 0 || lastName.length() == 0) {
 			messageArea.appendText("Make sure to enter a value for the first and last name\n");
 			return;
