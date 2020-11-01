@@ -70,6 +70,9 @@ public class Controller {
 	@FXML
 	private TextField firstName, lastName, amount;
 	
+	@FXML 
+	private Button printAccountsButton, printByNameButton, printByDateButton, sortByNameButton, sortByDateButton;
+	
 	
 	
 	@FXML
@@ -655,6 +658,46 @@ public class Controller {
 			
 		}
 		
+	}
+	
+	//print and sort methods go here
+	@FXML
+	/**
+	 * event handler for the print by last name button
+	 * @param event
+	 */
+	void printByLastNamePress(ActionEvent event) {
+		String[] tokens = new String[accountDatabase.getSize()];
+		tokens = accountDatabase.printByLastName();
+		for(String token : tokens) {
+			messageArea.appendText(token);
+		}
+	}
+	
+	@FXML
+	/**
+	 * event handler for print by date button
+	 * @param event
+	 */
+	void printByDatePress(ActionEvent event) {
+		String[] tokens = new String[accountDatabase.getSize()];
+		tokens = accountDatabase.printByDateOpen();
+		for(String token : tokens) {
+			messageArea.appendText(token);
+		}
+	}
+	
+	@FXML
+	/**
+	 * event handler for print accounts button
+	 * @param event
+	 */
+	void printAccountsPress(ActionEvent event) {
+		String[] tokens = new String[accountDatabase.getSize()];
+		tokens = accountDatabase.printAccounts();
+		for(String token : tokens) {
+			messageArea.appendText(token);
+		}
 	}
 		
 

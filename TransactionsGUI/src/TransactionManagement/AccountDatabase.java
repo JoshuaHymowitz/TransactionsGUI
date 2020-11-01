@@ -157,37 +157,53 @@ public class AccountDatabase {
 	/**
 	 * A method that sorts by date opened, and prints the results
 	 */
-	public void printByDateOpen() {
+	public String[] printByDateOpen() {
 		this.sortByDateOpen();
-		String[] tokenizedArray = new String[size];
+		String[] output = new String[size];
 		for(int i = 0; i < size; i++) {
-			//tokenizedArray[i] += 
-			
-			System.out.println(this.accounts[i].toString());
-			System.out.println("-interest: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyInterest()));
-			System.out.println("-fee: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyFee()));
+			output[i] = this.accounts[i].toString();
+			output[i] += "\n";
+			output[i] += "-interest: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyInterest());
+			output[i] += "\n";
+			output[i] += "-fee: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyFee());
+			output[i] += "\n";
+			//System.out.println(this.accounts[i].toString());
+			//System.out.println("-interest: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyInterest()));
+			//System.out.println("-fee: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyFee()));
 			this.accounts[i].credit(this.accounts[i].monthlyInterest()); // credit the account the monthly interest
 			this.accounts[i].debit(this.accounts[i].monthlyFee()); // debit the account the monthly fee
-			System.out.println("-new balance: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].getBalance()));
-			System.out.println("");
-			
+			output[i] += "-new balance: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].getBalance());
+			//System.out.println("-new balance: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].getBalance()));
+			output[i] += "\n \n";
+			//System.out.println("");
 		}
+		return output;
 	}
 	
 	/**
 	 * a method that sorts by last name, and prints the results
 	 */
-	public void printByLastName() { 
+	public String[] printByLastName() { 
 		this.sortByLastName();
+		String[] output = new String[size];
 		for(int i = 0; i < size; i++) {
-			System.out.println(this.accounts[i].toString());
-			System.out.println("-interest: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyInterest()));
-			System.out.println("-fee: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyFee()));
+			output[i] = this.accounts[i].toString();
+			output[i] += "\n";
+			output[i] += "-interest: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyInterest());
+			output[i] += "\n";
+			output[i] += "-fee: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyFee());
+			output[i] += "\n";
+			//System.out.println(this.accounts[i].toString());
+			//System.out.println("-interest: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyInterest()));
+			//System.out.println("-fee: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].monthlyFee()));
 			this.accounts[i].credit(this.accounts[i].monthlyInterest()); // credit the account the monthly interest
 			this.accounts[i].debit(this.accounts[i].monthlyFee()); // debit the account the monthly fee
-			System.out.println("-new balance: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].getBalance()));
-			System.out.println("");
+			output[i] += "-new balance: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].getBalance());
+			//System.out.println("-new balance: " + NumberFormat.getCurrencyInstance().format(this.accounts[i].getBalance()));
+			output[i] += "\n \n";
+			//System.out.println("");
 		}
+		return output;
 	}
 	
 	/**
@@ -197,7 +213,8 @@ public class AccountDatabase {
 		String[] tokens = new String[size];
 		for(int i = 0; i < size; i++) {
 			tokens[i] = this.accounts[i].toString();
-			System.out.println(this.accounts[i].toString());
+			tokens[i] += "\n";
+			//System.out.println(this.accounts[i].toString());
 		}
 		return tokens;
 	}
